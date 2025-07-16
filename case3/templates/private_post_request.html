@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ post.title }}</h2>
+<p><em>Этот пост скрыт и доступен только по запросу у автора.</em></p>
+{% if session.user_id %}
+    <p><a href="/request_access/{{ post.id }}">Запросить доступ</a></p>
+{% else %}
+    <p><a href="/login">Войдите</a>, чтобы запросить доступ к этому посту.</p>
+{% endif %}
+<a href="/">Вернуться на главную</a>
+{% endblock %}

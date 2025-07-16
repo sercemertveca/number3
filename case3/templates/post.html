@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ post.title }}</h2>
+<p><strong>Автор:</strong> {{ post.username }}</p>
+{% if post.is_private %}
+    <p><em>Этот пост приватный.</em></p>
+{% endif %}
+<p>{{ post.content }}</p>
+<p><strong>Теги:</strong> {{ post.tags or 'нет' }}</p>
+
+<h3>Комментарии</h3>
+{% for comment in comments %}
+    <div>
+        <strong>{{ comment.username }}</strong>: {{ comment.content }}
+    </div>
+{% else %}
+    <p>Комментариев пока нет.</p>
+{% endfor %}
+
+{% if session.user_id %}
+<form method="post" action="/comment/{{ post.id }}">
+    <textarea name="content" placeholder="Добавить комментарий" required></textarea><br>
+    <input type="submit" value="Отправить">
+</form>
+{% else %}
+<p><a href="/login">Войдите</a>, чтобы комментировать.</p>
+{% endif %}
+{% endblock %}

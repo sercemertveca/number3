@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Запросы на доступ к приватным постам</h2>
+{% if requests %}
+    <ul>
+    {% for req in requests %}
+        <li>
+            Пользователь <strong>{{ req.requester_name }}</strong> запросил доступ к посту 
+            <strong>{{ req.post_title }}</strong>.
+            <a href="/approve_request/{{ req.id }}">Одобрить</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Запросов нет.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Посты</h1>
+
+    <form method="get" action="/">
+        <label>Фильтр по тегу:</label>
+        <input type="text" name="tag" value="{{ request.args.get('tag', '') }}">
+        <input type="submit" value="Искать">
+    </form>
+
+    {% for post in posts %}
+        <div class="post">
+            <h3>
+                <a href="/post/{{ post.id }}">{{ post.title }}</a>
+                {% if post.is_private %}
+                    <small>(Приватный — доступ по запросу)</small>
+                {% endif %}
+            </h3>
+            <p>Автор: {{ post.username }}</p>
+            <p>Теги: {{ post.tags or 'нет' }}</p>
+            {% if session.user_id == post.user_id %}
+                <p>
+                    <a href="/edit/{{ post.id }}">Редактировать</a> |
+                    <a href="/delete/{{ post.id }}" onclick="return confirm('Удалить пост?')">Удалить</a>
+                </p>
+            {% endif %}
+        </div>
+    {% else %}
+        <p>Постов нет</p>
+    {% endfor %}
+{% endblock %}
